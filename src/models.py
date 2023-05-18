@@ -33,12 +33,15 @@ class People(db.Model):
     homeworld = db.Column(db.Integer, db.ForeignKey("planets.id"))
     mass = db.Column(db.Integer, nullable=False)
     skin_color = db.Column(db.String(250), nullable=False)
-    species = db.Column(db.String(250), db.ForeignKey("species.id"))
+    #species = db.Column(db.String(250), db.ForeignKey("species.id"))
     starships = db.Column(db.String(250))
     vehicles = db.Column(db.String(250), nullable=False)
     planet = db.relationship("Planets")
-    user = db.relationship("Favorites")
+    #user = db.relationship("Favorites")
     #specie = db.relationship("Species")
+
+    def __repr__(self):
+        return '<People %r>' % self.name
 
 class Planets(db.Model):
     __tablename__ = 'planets'
@@ -56,9 +59,15 @@ class Planets(db.Model):
     roation_period = db.Column(db.Integer, nullable=False)
     surface_water = db.Column(db.Integer, nullable=False)
     terrain = db.Column(db.String(250), nullable=False)
-    user = db.relationship("Favorites")
+    #user = db.relationship("Favorites")
+
+    def __repr__(self):
+        return '<Planets %r>' % self.name
 
 class Favorites(db.Model):
     __tablename__ = 'favorites'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(250), nullable=False)
+    type = db.Column(db.String(250), nullable=False)
+    element_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship(User)
