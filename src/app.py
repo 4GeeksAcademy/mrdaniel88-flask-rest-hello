@@ -79,6 +79,16 @@ def favorite_create(element, element_id):
     db.session.commit()
     return jsonify({"msg":"Favorite created"}), 201
 
+@app.route("/favorite/<element>/<int:element_id>", methods=["DELETE"])
+def favorite_delete(element, element_id):
+    user_id=request.get_json()["userId"]
+    favorite=Favorites.query.filter_by(type=element, element_id=element_id, user_id=user_id).first()
+    if(favorite is None):
+        return jsonify({"msg":"Favorite not found"}), 404
+    db.session.delete(favorite)
+    db.session.commit()
+    return jsonify({"msg":"Favorite deleted"}), 200
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
