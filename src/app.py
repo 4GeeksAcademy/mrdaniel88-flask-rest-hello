@@ -71,6 +71,12 @@ def user_get(user_id):
     
     return jsonify(user.serialize())
 
+@app.route("/user/<int:user_id>/favorites", methods=["GET"])
+def user_favorites_get(user_id):
+    favorites=Favorites.query.filter_by(user_id=user_id).all()
+    favorites=list(map(lambda fav: fav.serialize(),favorites))
+    return jsonify(favorites)
+
 @app.route("/favorite/<element>/<int:element_id>", methods=["POST"])
 def favorite_create(element, element_id):
     user_id=request.get_json()["userId"]
@@ -89,6 +95,11 @@ def favorite_delete(element, element_id):
     db.session.commit()
     return jsonify({"msg":"Favorite deleted"}), 200
 
+@app.route("/people", methods=["GET"])
+def people_get():
+    people=People.query.all()
+    people=list(map(lambda person: person.serialize(), people))
+    return jsonify(people)
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':

@@ -43,6 +43,12 @@ class People(db.Model):
     def __repr__(self):
         return '<People %r>' % self.name
 
+    def serialize(self):
+        return {
+            "birth_year":self.birth_year,
+            "gender":self.gender
+        }
+
 class Planets(db.Model):
     __tablename__ = 'planets'
     # Here we define columns for the table person
@@ -74,3 +80,10 @@ class Favorites(db.Model):
 
     def __repr__(self):
         return '<Favorites %r>' % self.type % self.element_id
+    
+    def serialize(self):
+        return {
+            "type":self.type,
+            "element_id":self.element_id,
+            "userId":self.user_id
+        }
