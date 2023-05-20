@@ -45,6 +45,7 @@ class People(db.Model):
 
     def serialize(self):
         return {
+            "name":self.name,
             "birth_year":self.birth_year,
             "gender":self.gender
         }
@@ -69,6 +70,13 @@ class Planets(db.Model):
 
     def __repr__(self):
         return '<Planets %r>' % self.name
+
+    def serialize(self):
+        return {
+            "name":self.name,
+            "climate":self.climate,
+            "gravity":self.gravity
+        }
 
 class Favorites(db.Model):
     __tablename__ = 'favorites'
